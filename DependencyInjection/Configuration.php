@@ -14,6 +14,8 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('neutron_team_member');
 
+        $this->addGeneralConfigurations($rootNode);
+        
         return $treeBuilder;
     }
     
