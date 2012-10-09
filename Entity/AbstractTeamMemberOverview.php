@@ -9,6 +9,12 @@
  */
 namespace Neutron\Plugin\TeamMemberBundle\Entity;
 
+use Neutron\Bundle\FormBundle\Model\MultiSelectSortableReferenceInterface;
+
+use Neutron\MvcBundle\Model\Category\CategoryInterface;
+
+use Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin;
+
 use Doctrine\Common\Collections\ArrayCollection;
 
 use Neutron\Bundle\FormBundle\Model\MultiSelectSortableInterface;
@@ -103,7 +109,7 @@ class AbstractTeamMemberOverview
     
     public function getIdentifier()
     {
-        return ;
+        return TeamMemberPlugin::IDENTIFIER;
     }
     
     public function getReferences()

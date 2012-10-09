@@ -1,5 +1,5 @@
 <?php
-namespace src\Neutron\Plugin\TeamMemberBundle\Model;
+namespace Neutron\Plugin\TeamMemberBundle\Model;
 
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewInterface;
 

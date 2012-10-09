@@ -1,6 +1,8 @@
 <?php
 namespace Neutron\Plugin\TeamMemberBundle\Form\Handler;
 
+use Neutron\MvcBundle\Model\MvcManagerInterface;
+
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewManagerInterface;
 
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
@@ -11,7 +13,7 @@ class TeamMemberOverviewHandler extends AbstractFormHandler
 {
     protected $plugin;
     
-    protected $teamMemberOverviewManager;
+    protected $mvcManager;
     
     protected $aclManager;
     
@@ -21,9 +23,9 @@ class TeamMemberOverviewHandler extends AbstractFormHandler
         return $this;
     }
     
-    public function setTeamMemberOverviewManager(TeamMemberOverviewManagerInterface $teamMemberOverviewManager)
+    public function setMvcManager(MvcManagerInterface $mvcManager)
     {
-        $this->teamMemberOverviewManager = $teamMemberOverviewManager;
+        $this->mvcManager = $mvcManager;
     }
     
     
@@ -38,13 +40,11 @@ class TeamMemberOverviewHandler extends AbstractFormHandler
         $overview = $this->form->get('content')->getData();
         $category = $overview->getCategory();
         
-        $mvcManager = $this->plugin->getMvcManager();
-        
-        $this->teamMemberOverviewManager->update($overview);
+        $this->plugin->getManager()->update($overview);
         
         if (count($this->plugin->getPanels()) > 0){
             $panels = $this->form->get('panels')->getData();
-            $mvcManager->updatePanels($overview->getId(), $panels);
+            $this->mvcManager->updatePanels($overview->getId(), $panels);
         }
         
         $this->om->flush();

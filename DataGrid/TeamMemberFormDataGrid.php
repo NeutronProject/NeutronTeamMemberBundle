@@ -1,5 +1,5 @@
 <?php
-namespace Neutron\Plugin\CustomerServicesBundle\DataGrid;
+namespace Neutron\Plugin\TeamMemberBundle\DataGrid;
 
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberManagerInterface;
 

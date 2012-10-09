@@ -7,7 +7,7 @@
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
  */
-namespace Neutron\AdminBundle\Entity;
+namespace Neutron\Plugin\TeamMemberBundle\Entity;
 
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberInterface;
 
@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\MappedSuperclass
  */
-class AbstactTeamMember implements TeamMemberInterface
+class AbstractTeamMember implements TeamMemberInterface
 {
     /**
      * @var integer 

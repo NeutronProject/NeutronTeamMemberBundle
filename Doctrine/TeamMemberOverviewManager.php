@@ -7,7 +7,8 @@ use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewManagerInterface;
 
 use Neutron\ComponentBundle\Doctrine\AbstractManager;
 
-class TeamMemberOverviewManager extends AbstractManager implements TeamMemberOverviewManagerInterface
+class TeamMemberOverviewManager extends AbstractManager 
+    implements TeamMemberOverviewManagerInterface
 {
     public function getByCategory(CategoryInterface $category)
     {

@@ -13,7 +13,7 @@ use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewInterface;
 
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberInterface;
 
-use src\Neutron\Plugin\TeamMemberBundle\Model\TeamMemberReferenceInterface;
+use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberReferenceInterface;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -45,7 +45,7 @@ class AbstractTeamMemberReference implements TeamMemberReferenceInterface
     protected $inversed;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewInterface" inversedBy="references")
+     * @ORM\ManyToOne(targetEntity="Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewInterface", inversedBy="references")
      * @ORM\JoinColumn(onDelete="CASCADE")
      */   
     protected $teamMemberOverview;

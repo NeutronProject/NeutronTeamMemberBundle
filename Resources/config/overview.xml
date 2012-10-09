@@ -4,17 +4,156 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-    <!--
+
     <parameters>
-        <parameter key="neutron_team_member.example.class">Neutron\Plugin\TeamMemberBundle\Example</parameter>
+        <parameter key="neutron_team_member.plugin.builder.class">Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin</parameter>
+        <parameter key="neutron_team_member.doctrine.team_member_overview_manager.default.class">Neutron\Plugin\TeamMemberBundle\Doctrine\TeamMemberOverviewManager</parameter>
+        <parameter key="neutron_team_member.controller.backend.team_member_overview.default.class">Neutron\Plugin\TeamMemberBundle\Controller\Backend\TeamMemberOverviewController</parameter>
+        <parameter key="neutron_team_member.controller.frontend.team_member_overview.default.class">Neutron\Plugin\TeamMemberBundle\Controller\Frontend\TeamMemberOverviewController</parameter>
+        <parameter key="neutron_team_member.form.type.team_member_overview.class">Neutron\Plugin\TeamMemberBundle\Form\Type\TeamMemberOverviewType</parameter>
+        <parameter key="neutron_team_member.form.type.team_member_overview.content.class">Neutron\Plugin\TeamMemberBundle\Form\Type\TeamMemberOverview\ContentType</parameter>
+        <parameter key="neutron_team_member.form.handler.team_member_overview.default.class">Neutron\Plugin\TeamMemberBundle\Form\Handler\TeamMemberOverviewHandler</parameter>
+        <parameter key="neutron_team_member.datagrid.builder.team_member_form.class">Neutron\Plugin\TeamMemberBundle\DataGrid\TeamMemberFormDataGrid</parameter>
     </parameters>
 
     <services>
-        <service id="neutron_team_member.example" class="%neutron_team_member.example.class%">
-            <argument type="service" id="service_id" />
-            <argument>plain_value</argument>
-            <argument>%parameter_name%</argument>
+        <service id="neutron_team_member.plugin.builder" 
+        	class="%neutron_team_member.plugin.builder.class%">
+            <argument type="service" id="event_dispatcher" />
+            <argument type="service" id="neutron_mvc.plugin.factory" />
+            <argument type="service" id="router" />
+            <argument type="service" id="translator" />
+            <argument type="service" id="neutron_team_member.team_member_overview_manager" />
+            <argument>%neutron_team_member.translation_domain%</argument>
         </service>
+        
+        <service id="neutron_team_member.plugin" 
+        	class="Neutron\MvcBundle\Plugin\PluginFactory"
+        	factory-service="neutron_team_member.plugin.builder"
+        	factory-method="build"
+        >
+            <tag name="neutron.plugin" alias="neutron.plugin.team_member"/>
+        </service>
+        
+        <service id="neutron_team_member.doctrine.team_member_overview_manager.default" 
+        	class="%neutron_team_member.doctrine.team_member_overview_manager.default.class%" 
+        >
+            <call method="setClassName">
+            	<argument>%neutron_team_member.team_member_overview_class%</argument>
+            </call>
+            <call method="setObjectManager">
+            	<argument type="service" id="object_manager" />
+            </call>
+        </service>
+        
+        <service id="neutron_team_member.controller.backend.team_member_overview.default" 
+        	class="%neutron_team_member.controller.backend.team_member_overview.default.class%"
+        >
+        	<call method="setContainer">
+            	<argument type="service" id="service_container"/>
+            </call>
+       </service>
+        
+        <service id="neutron_team_member.controller.frontend.team_member_overview.default" 
+        	class="%neutron_team_member.controller.frontend.team_member_overview.default.class%">
+            <call method="setContainer">
+            	<argument type="service" id="service_container"/>
+            </call>
+       </service>
+       
+       <service id="neutron_team_member.form.type.team_member_overview" 
+        	class="%neutron_team_member.form.type.team_member_overview.class%"
+        >
+            <call method="setPlugin">
+            	<argument type="service" id="neutron_team_member.plugin" />
+            </call>
+            <call method="setAclManager">
+            	<argument type="service" id="neutron_admin.acl.manager" />
+            </call>
+            <call method="setDataGridName">
+            	<argument>%neutron_team_member.form.datagrid.team_member_form%</argument>
+            </call>
+            <call method="setTeamMemberOverviewClass">
+            	<argument>%neutron_team_member.team_member_overview_class%</argument>
+            </call>
+            <call method="setTeamMemberClass">
+            	<argument>%neutron_team_member.team_member_class%</argument>
+            </call>
+            <call method="setTeamMemberReferenceClass">
+            	<argument>%neutron_team_member.team_member_reference_class%</argument>
+            </call>
+       
+            <tag name="form.type" alias="neutron_team_member_overview" />
+        </service>
+        
+        <service id="neutron_team_member.form.type.team_member_overview.content" 
+        	class="%neutron_team_member.form.type.team_member_overview.content.class%"
+        >
+			<call method="setTeamMemberOverviewClass">
+            	<argument>%neutron_team_member.team_member_overview_class%</argument>
+            </call>
+			<call method="setTemplates">
+            	<argument>%neutron_team_member.team_member_overview_templates%</argument>
+            </call>
+			<call method="setTranslationDomain">
+            	<argument>%neutron_team_member.translation_domain%</argument>
+            </call>
+			
+            <tag name="form.type" alias="neutron_team_member_overview_content" />
+        </service>
+        
+        <service id="neutron_team_member.form.handler.team_member_overview.default" 
+        	class="%neutron_team_member.form.handler.team_member_overview.default.class%"
+        	parent="neutron_component.form.handler"
+        	scope="request"
+        >
+        	
+        	<call method="setObjectManager">
+        		<argument type="service" id="object_manager" />
+        	</call>
+        	<call method="setAclManager">
+        		<argument type="service" id="neutron_admin.acl.manager" />
+        	</call>
+        	<call method="setMvcManager">
+        		<argument type="service" id="neutron_mvc.mvc_manager" />
+        	</call>
+        	<call method="setForm">
+        		<argument type="service" id="neutron_team_member.form.team_member_overview" />
+        	</call>
+        	<call method="setPlugin">
+        		<argument type="service" id="neutron_team_member.plugin" />
+        	</call>
+        	<call method="setTranslationDomain">
+        		<argument>%neutron_team_member.translation_domain%</argument>
+        	</call>
+        </service>
+        
+        <service id="neutron_team_member.form.team_member_overview" factory-method="createNamed" 
+       		factory-service="form.factory" class="Symfony\Component\Form\Form"
+       	>
+            <argument>%neutron_team_member.form.name.team_member_overview%</argument>
+            <argument>%neutron_team_member.form.type.team_member_overview%</argument>
+        </service>
+        
+        <service id="neutron_team_member.datagrid.builder.team_member_form" 
+        	class="%neutron_team_member.datagrid.builder.team_member_form.class%"
+        	scope="request"
+       	>
+        	<argument type="service" id="neutron_data_grid.factory" />
+        	<argument type="service" id="translator" />
+        	<argument type="service" id="router" />
+        	<argument type="service" id="neutron_team_member.team_member_overview_manager" />
+        	<argument>%neutron_team_member.translation_domain%</argument>
+        </service>
+        
+        <service id="neutron_team_member.datagrid.team_member_form" 
+        	class="Neutron\Bundle\DataGridBundle\DataGrid\DataGrid"
+        	factory-service="neutron_team_member.datagrid.builder.team_member_form"
+        	factory-method="build"
+        >
+        	<tag name="neutron_data_grid.datagrid" alias="team_member_form" />
+        </service>
+
     </services>
-    -->
+  
 </container>
