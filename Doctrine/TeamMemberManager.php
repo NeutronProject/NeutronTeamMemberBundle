@@ -7,5 +7,13 @@ use Neutron\ComponentBundle\Doctrine\AbstractManager;
 
 class TeamMemberManager extends AbstractManager implements TeamMemberManagerInterface
 {
-
+    public function getQueryBuilderForTeamMemberManagementDataGrid()
+    {
+        return $this->repository->getQueryBuilderForTeamMemberManagementDataGrid();
+    }
+    
+    public function getQueryBuilderForTeamMemberFromDataGrid()
+    {
+        return $this->repository->getQueryBuilderForTeamMemberFromDataGrid();
+    }
 }

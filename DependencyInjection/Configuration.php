@@ -33,7 +33,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('team_member_class')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('team_member_manager')->defaultValue('neutron_team_member.doctrine.orm.team_member_manager.default')->end()
                 ->scalarNode('team_member_controller_backend')->defaultValue('neutron_team_member.controller.backend.team_member.default')->end()
-                ->scalarNode('team_member_controller_frontend')->defaultValue('neutron_team_member.controller.frontend.team_member.default')->end()
                 ->scalarNode('team_member_datagrid_management')->defaultValue('team_member_management')->end()
                 ->scalarNode('translation_domain')->defaultValue('NeutronTeamMemberBundle')->end()
             ->end()

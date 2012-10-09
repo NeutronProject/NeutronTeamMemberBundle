@@ -55,7 +55,6 @@ class NeutronTeamMemberExtension extends Extension
     {
         $container->setParameter('neutron_team_member.team_member_class', $config['team_member_class']);
         $container->setAlias('neutron_team_member.controller.backend.team_member', $config['team_member_controller_backend']);
-        $container->setAlias('neutron_team_member.controller.frontend.overview', $config['team_member_controller_frontend']);
         $container->setAlias('neutron_team_member.team_member_manager', $config['team_member_manager']);
         $container->setParameter('neutron_team_member.datagrid.team_member_management', $config['team_member_datagrid_management']);
         
