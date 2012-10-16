@@ -1,13 +1,13 @@
 <?php
 namespace Neutron\Plugin\TeamMemberBundle\Controller\Backend;
 
+use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin;
-
-use Symfony\Component\BrowserKit\Response;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 
@@ -19,7 +19,7 @@ class TeamMemberController extends ContainerAware
             ->get($this->container->getParameter('neutron_team_member.datagrid.team_member_management'));
     
         $template = $this->container->get('templating')->render(
-            'NeutronCustomerServicesBundle:Backend\Administration:index.html.twig', array(
+            'NeutronTeamMemberBundle:Backend\TeamMember:index.html.twig', array(
                 'grid' => $grid,
                 'translationDomain' =>
                     $this->container->getParameter('neutron_team_member.translation_domain')

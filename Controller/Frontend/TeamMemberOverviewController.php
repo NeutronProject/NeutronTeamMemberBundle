@@ -1,6 +1,8 @@
 <?php
 namespace Neutron\Plugin\TeamMemberBundle\Controller\Frontend;
 
+use Neutron\MvcBundle\Model\Category\CategoryInterface;
+
 use Symfony\Component\HttpFoundation\Response;
 
 use Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin;
@@ -26,7 +28,7 @@ class TeamMemberOverviewController extends ContainerAware
         $mvcManager->loadPanels($plugin, $overview->getId(), TeamMemberPlugin::IDENTIFIER);
          
         $template = $this->container->get('templating')->render($overview->getTemplate(), array(
-            'overview'   => $overview,
+            'entity'   => $overview,
             'plugin' => $plugin,
         ));
     

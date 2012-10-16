@@ -71,7 +71,7 @@ class TeamMemberOverviewType extends AbstractType
     
     public function setTeamMemberReferenceClass($teamMemberReferenceClass)
     {
-        $this->teamMemberClass = $teamMemberReferenceClass;
+        $this->teamMemberReferenceClass = $teamMemberReferenceClass;
     }
     
     
@@ -83,7 +83,7 @@ class TeamMemberOverviewType extends AbstractType
     {
        $builder->add('general', 'neutron_category');
        $builder->add('content', 'neutron_team_member_overview_content');
-       $builder->add('services', 'neutron_multi_select_sortable_form', array(
+       $builder->add('team_members', 'neutron_multi_select_sortable_form', array(
            'grid_name' => $this->dataGridName,
            'data_class' => $this->teamMemberOverviewClass,
            'inversed_class' => $this->teamMemberClass,

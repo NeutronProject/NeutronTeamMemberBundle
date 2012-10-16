@@ -21,7 +21,7 @@ class TeamMemberOverviewRepository extends TranslationRepository
         $qb
             ->select('o, r, m')
             ->join('o.references', 'r')
-            ->join('r.inversed', 's')
+            ->join('r.inversed', 'm')
             ->where('o.category = ?1 AND m.enabled = ?2')
             ->orderBy('r.position', 'ASC')
             ->setParameters(array(1 => $category, 2 => true))

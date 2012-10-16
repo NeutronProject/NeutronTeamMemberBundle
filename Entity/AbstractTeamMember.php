@@ -48,7 +48,7 @@ class AbstractTeamMember implements TeamMemberInterface
     /**
      * @var string 
      *
-     * @ORM\Column(type="string", name="phone", length=255, nullable=true, unique=false)
+     * @ORM\Column(type="string", name="phone", length=50, nullable=true, unique=false)
      */
     protected $phone;
     

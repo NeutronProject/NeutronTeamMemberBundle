@@ -19,6 +19,7 @@
                   form, 
                 {'submit_label': 'form.save', 'translation_domain': translationDomain},
                 {
+                    'add_team_member': {'label': 'form.add_team_member', 'style': 'btn action', 'url': path('neutron_team_member.backend.team_member.update')},
                     'back_administration': {'label': 'form.back_administration', 'style': 'btn action', 'url': path(plugin.administrationRoute)},
                     'back_category': {'label': 'form.back_category', 'style': 'btn action', 'url': path('neutron_mvc.category.management')},
                 }

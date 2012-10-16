@@ -69,7 +69,7 @@ class ContentType extends AbstractType
                 'attr' => array('class' => 'uniform'),
                 'translation_domain' => $this->translationDomain
             ))
-            ->add('name', 'email', array(
+            ->add('email', 'email', array(
                 'label' => 'form.email',
                 'translation_domain' => $this->translationDomain
             ))
@@ -114,7 +114,16 @@ class ContentType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => $this->teamMemberClass,
             'validation_groups' => function(FormInterface $form){
-                return 'default';
+                $validationGroups = array('default');
+                if ($form->getData()->getEnablePhone() === true){
+                    array_push($validationGroups, 'phone_enabled');
+                }
+                
+                if ($form->getData()->getEnableEmail() === true){
+                    array_push($validationGroups, 'email_enabled');
+                }
+
+                return $validationGroups;
             },
         ));
     }

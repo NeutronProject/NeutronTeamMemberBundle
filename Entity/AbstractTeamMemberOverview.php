@@ -9,6 +9,12 @@
  */
 namespace Neutron\Plugin\TeamMemberBundle\Entity;
 
+use Neutron\SeoBundle\Model\SeoInterface;
+
+use Neutron\SeoBundle\Model\SeoAwareInterface;
+
+use Neutron\MvcBundle\Model\CategoryAwareInterface;
+
 use Neutron\Bundle\FormBundle\Model\MultiSelectSortableReferenceInterface;
 
 use Neutron\MvcBundle\Model\Category\CategoryInterface;
@@ -19,8 +25,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 use Neutron\Bundle\FormBundle\Model\MultiSelectSortableInterface;
 
-use Neutron\MvcBundle\Model\CategoriableInterface;
-
 use Neutron\Plugin\TeamMemberBundle\Model\TeamMemberOverviewInterface;
  
 use Doctrine\ORM\Mapping as ORM;
@@ -30,7 +34,7 @@ use Doctrine\ORM\Mapping as ORM;
  * 
  */
 class AbstractTeamMemberOverview 
-     implements TeamMemberOverviewInterface, CategoriableInterface, MultiSelectSortableInterface
+     implements TeamMemberOverviewInterface, CategoryAwareInterface, SeoAwareInterface, MultiSelectSortableInterface
 {
     /**
      * @var integer 
@@ -60,7 +64,7 @@ class AbstractTeamMemberOverview
     protected $category;
     
     /**
-     * @ORM\OneToOne(targetEntity="Neutron\SeoBundle\Entity\Seo", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Neutron\SeoBundle\Entity\Seo", cascade={"all"}, orphanRemoval=true)
      * @ORM\JoinColumn(onDelete="CASCADE")
      */
     protected $seo;
@@ -70,7 +74,7 @@ class AbstractTeamMemberOverview
         $this->references = new ArrayCollection();
     }
     
-    public function getId($id)
+    public function getId()
     {
         return $this->id;
     }

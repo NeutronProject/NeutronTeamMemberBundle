@@ -4,5 +4,29 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
- 
+	<route id="neutron_team_member.backend.team_member" pattern="/admin/plugin/team-member">
+        <default key="_controller">neutron_team_member.controller.backend.team_member:indexAction</default>
+        <requirement key="_method">GET|POST</requirement>
+    </route>
+    
+    <route id="neutron_team_member.backend.team_member.update" pattern="/admin/plugin/team-member/administration/update/{id}">
+        <default key="_controller">neutron_team_member.controller.backend.team_member:updateAction</default>
+    	<default key="id">0</default>
+        <requirement key="_method">GET|POST</requirement>
+    </route>
+    
+    <route id="neutron_team_member.backend.team_member.delete" pattern="/admin/plugin/team-member/administration/delete/{id}">
+        <default key="_controller">neutron_team_member.controller.backend.team_member:deleteAction</default>
+        <requirement key="_method">GET|POST</requirement>
+    </route>
+
+    <route id="neutron_team_member.backend.team_member_overview.update" pattern="/admin/plugin/team-member/update/{id}">
+        <default key="_controller">neutron_team_member.controller.backend.team_member_overview:updateAction</default>
+        <requirement key="_method">GET|POST</requirement>
+    </route>
+
+    <route id="neutron_team_member.backend.team_member_overview.delete" pattern="/admin/plugin/team-member/delete/{id}">
+        <default key="_controller">neutron_team_member.controller.backend.team_member_overview:deleteAction</default>
+        <requirement key="_method">GET|POST</requirement>
+    </route>
 </routes>

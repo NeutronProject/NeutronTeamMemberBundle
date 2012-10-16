@@ -7,7 +7,7 @@
  
     <parameters>
         <parameter key="neutron_team_member.doctrine.team_member_manager.default.class">Neutron\Plugin\TeamMemberBundle\Doctrine\TeamMemberManager</parameter>
-        <parameter key="neutron_team_member.controller.backend.team_member.default.class">Neutron\Plugin\TeamMemberBundle\Controller\Backend\TeamMemberManagerController</parameter>
+        <parameter key="neutron_team_member.controller.backend.team_member.default.class">Neutron\Plugin\TeamMemberBundle\Controller\Backend\TeamMemberController</parameter>
         <parameter key="neutron_team_member.form.type.team_member.class">Neutron\Plugin\TeamMemberBundle\Form\Type\TeamMemberType</parameter>
         <parameter key="neutron_team_member.form.type.team_member.content.class">Neutron\Plugin\TeamMemberBundle\Form\Type\TeamMember\ContentType</parameter>
         <parameter key="neutron_team_member.form.handler.team_member.default.class">Neutron\Plugin\TeamMemberBundle\Form\Handler\TeamMemberHandler</parameter>
@@ -44,7 +44,7 @@
         	class="%neutron_team_member.form.type.team_member.content.class%"
         >
 			<call method="setTeamMemberClass">
-            	<argument>%neutron_team_member.team_member_overview_class%</argument>
+            	<argument>%neutron_team_member.team_member_class%</argument>
             </call>
 			<call method="setTranslationDomain">
             	<argument>%neutron_team_member.translation_domain%</argument>
@@ -55,18 +55,12 @@
         
         <service id="neutron_team_member.form.handler.team_member.default" 
         	class="%neutron_team_member.form.handler.team_member.default.class%"
-        	parent="neutron_component.form.handler"
-        	scope="request"
         >
-        	
-        	<call method="setObjectManager">
-        		<argument type="service" id="object_manager" />
+        	<call method="setContainer">
+        		<argument type="service" id="service_container" />
         	</call>
         	<call method="setForm">
         		<argument type="service" id="neutron_team_member.form.team_member" />
-        	</call>
-        	<call method="setTeamMemberManager">
-        		<argument type="service" id="neutron_team_member.team_member_manager" />
         	</call>
         	<call method="setTranslationDomain">
         		<argument>%neutron_team_member.translation_domain%</argument>

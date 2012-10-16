@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/constraint-mapping
+        http://symfony.com/schema/dic/constraint-mapping/constraint-mapping-1.0.xsd">
+
+	<class name="Neutron\Plugin\TeamMemberBundle\Entity\AbstractTeamMemberOverview">
+		<property name="template">
+        	<constraint name="NotBlank">
+                <option name="message">template.blank</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+	</class>
+	
+    <class name="Neutron\Plugin\TeamMemberBundle\Entity\AbstractTeamMember">   
+	     
+        <property name="name">
+        	<constraint name="NotBlank">
+                <option name="message">name.blank</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="MinLength">
+                <option name="limit">2</option>
+                <option name="message">name.short</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="MaxLength">
+                <option name="limit">255</option>
+                <option name="message">name.long</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+        <property name="jobTitle">
+        	<constraint name="NotBlank">
+                <option name="message">jobTitle.blank</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="MinLength">
+                <option name="limit">2</option>
+                <option name="message">jobTitle.short</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="MaxLength">
+                <option name="limit">255</option>
+                <option name="message">jobTitle.long</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+        
+        <property name="phone">
+        	<constraint name="NotBlank">
+                <option name="message">phone.blank</option>
+                <option name="groups">
+                    <value>phone_enabled</value>
+                </option>
+            </constraint>
+            <constraint name="MaxLength">
+                <option name="limit">50</option>
+                <option name="message">phone.long</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+        
+        <property name="email">
+        	<constraint name="Email">
+                <option name="message">email.invalid</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        	<constraint name="NotBlank">
+                <option name="message">email.blank</option>
+                <option name="groups">
+                    <value>email_enabled</value>
+                </option>
+            </constraint>
+            <constraint name="MaxLength">
+                <option name="limit">255</option>
+                <option name="message">email.long</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+        
+        <property name="content">
+        	<constraint name="NotBlank">
+                <option name="message">content.blank</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+            <constraint name="MinLength">
+                <option name="limit">10</option>
+                <option name="message">content.short</option>
+                <option name="groups">
+                    <value>default</value>
+                </option>
+            </constraint>
+        </property>
+    </class>
+
+</constraint-mapping>

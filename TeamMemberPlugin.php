@@ -31,18 +31,15 @@ class TeamMemberPlugin
     
     protected $translator;
     
-    protected $manager;
-    
     protected $translationDomain;
     
     public function __construct(EventDispatcher $dispatcher, PluginFactoryInterface $factory, RouterInterface $router, 
-            TranslatorInterface $translator, TeamMemberOverviewManager $manager, $translationDomain)
+            TranslatorInterface $translator, $translationDomain)
     {
         $this->dispatcher = $dispatcher;
         $this->factory = $factory;
         $this->router = $router;
         $this->translator = $translator;
-        $this->manager = $manager;
         $this->translationDomain = $translationDomain;
         
     }
@@ -57,7 +54,7 @@ class TeamMemberPlugin
             ->setAdministrationRoute('neutron_team_member.backend.team_member')
             ->setUpdateRoute('neutron_team_member.backend.team_member_overview.update')
             ->setDeleteRoute('neutron_team_member.backend.team_member_overview.delete')
-            ->setManager($this->manager)
+            ->setManagerServiceId('neutron_team_member.team_member_overview_manager')
             ->setTreeOptions(array(
                 'children_strategy' => PluginInterface::CHILDREN_STRATEGY_SELF,
             ))

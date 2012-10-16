@@ -1,0 +1,47 @@
+<div id="messages">
+    {% for flashMessage in app.session.flashbag.get('neutron.form.success') %}
+        <div class="msg {{ flashMessage.type }}"><p> {{ flashMessage.body }}  </p><a class="close">×</a></div>
+    {% endfor %}	
+</div>
+
+<form action="{{ app.request.getRequestUri() }}" class="neutron-form" {{ form_enctype(form) }} method="POST">
+
+    <div class="form-tabs">
+        <ul>
+            <li><a href="#tab-{{ form.child('content').vars.id }}">{{ 'tab.content'|trans({}, translation_domain) }}</a></li>
+        </ul>
+        <fieldset class="form">
+           <div id="tab-{{ form.child('content').vars.id }}">
+                <div class="field">
+                    {{ form_label(form.child('content').name, 'asas',{'attr': {'class': 'align'}}) }}
+                    <div class="controls">
+                        {{ form_widget(form.child('content').name, { 'attr': {'class': 'input grid5'} }) }}
+                    </div>
+                </div>
+            </div>
+
+    	<div class="actions">
+            <div class="controls">
+                <a href="#submit" style="float:right; margin:5px;" class="btn submit-type" >{{ 'form.save'|trans({}, translation_domain) }}</a>
+                <a href="{{ path('neutron_mvc.category.management') }}" style="float:right; margin:5px;" class="btn action" >{{ 'back_administration'|trans({}, translation_domain) }}</a>            
+            </div>
+        </div>
+    	</fieldset>
+    	
+    </div>
+
+</form>
+
+<div id="message-form-success" style="display:none;">
+    <div class="msg success">
+        <p>__MSG__</p><a class="close">×</a>
+    </div>
+</div>
+
+<div id="message-form-invalid" style="display:none;">
+    <div class="msg error">
+        <p>{{ 'form.message.invalid'|trans({}, 'NeutronUserBundle') }}</p><a class="close">×</a>
+    </div>
+</div>
+
+<div id="block-ui-message" style="display:none"><h3><img src="{{ site_url }}files/images/ajax-loader.gif" /> {{ 'form.message.blockui'|trans({}, translation_domain) }}</h3></div>

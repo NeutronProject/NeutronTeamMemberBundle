@@ -23,7 +23,6 @@
             <argument type="service" id="neutron_mvc.plugin.factory" />
             <argument type="service" id="router" />
             <argument type="service" id="translator" />
-            <argument type="service" id="neutron_team_member.team_member_overview_manager" />
             <argument>%neutron_team_member.translation_domain%</argument>
         </service>
         
@@ -104,24 +103,12 @@
         
         <service id="neutron_team_member.form.handler.team_member_overview.default" 
         	class="%neutron_team_member.form.handler.team_member_overview.default.class%"
-        	parent="neutron_component.form.handler"
-        	scope="request"
         >
-        	
-        	<call method="setObjectManager">
-        		<argument type="service" id="object_manager" />
-        	</call>
-        	<call method="setAclManager">
-        		<argument type="service" id="neutron_admin.acl.manager" />
-        	</call>
-        	<call method="setMvcManager">
-        		<argument type="service" id="neutron_mvc.mvc_manager" />
+        	<call method="setContainer">
+        		<argument type="service" id="service_container" />
         	</call>
         	<call method="setForm">
         		<argument type="service" id="neutron_team_member.form.team_member_overview" />
-        	</call>
-        	<call method="setPlugin">
-        		<argument type="service" id="neutron_team_member.plugin" />
         	</call>
         	<call method="setTranslationDomain">
         		<argument>%neutron_team_member.translation_domain%</argument>
@@ -142,7 +129,7 @@
         	<argument type="service" id="neutron_data_grid.factory" />
         	<argument type="service" id="translator" />
         	<argument type="service" id="router" />
-        	<argument type="service" id="neutron_team_member.team_member_overview_manager" />
+        	<argument type="service" id="neutron_team_member.team_member_manager" />
         	<argument>%neutron_team_member.translation_domain%</argument>
         </service>
         
@@ -151,7 +138,7 @@
         	factory-service="neutron_team_member.datagrid.builder.team_member_form"
         	factory-method="build"
         >
-        	<tag name="neutron_data_grid.datagrid" alias="team_member_form" />
+        	<tag name="neutron_data_grid.datagrid" alias="neutron_team_member_form" />
         </service>
 
     </services>

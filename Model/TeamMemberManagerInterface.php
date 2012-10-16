@@ -5,5 +5,5 @@ interface TeamMemberManagerInterface
 {
     public function getQueryBuilderForTeamMemberManagementDataGrid();
     
-    public function getQueryBuilderForTeamMemberFromDataGrid();
+    public function getQueryBuilderForTeamMemberFormDataGrid();
 }

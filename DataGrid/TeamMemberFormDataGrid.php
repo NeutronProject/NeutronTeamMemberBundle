@@ -12,7 +12,7 @@ use Neutron\Bundle\DataGridBundle\DataGrid\FactoryInterface;
 class TeamMemberFormDataGrid
 {
 
-    const IDENTIFIER = 'team_member_form';
+    const IDENTIFIER = 'neutron_team_member_form';
     
     protected $factory;
     
@@ -50,12 +50,12 @@ class TeamMemberFormDataGrid
             ))
             ->setColModel(array(
                 array(
-                    'name' => 'm.name', 'index' => 'm.name', 'width' => 200, 
+                    'name' => 'm.name', 'index' => 'm.name', 'width' => 400, 
                     'align' => 'left', 'sortable' => true, 'search' => true,
                 ), 
                     
                 array(
-                    'name' => 'm.jobTitle', 'index' => 'm.jobTitle', 'width' => 200, 
+                    'name' => 'm.jobTitle', 'index' => 'm.jobTitle', 'width' => 400, 
                     'align' => 'left', 'sortable' => true, 'search' => false,
                 ),
             ))
@@ -65,6 +65,8 @@ class TeamMemberFormDataGrid
             ->enablePager(true)
             ->enableViewRecords(true)
             ->enableSearchButton(true)
+            ->enableMultiSelectSortable(true)
+            ->setMultiSelectSortableColumn('m.name')
        ;
 
         return $dataGrid;

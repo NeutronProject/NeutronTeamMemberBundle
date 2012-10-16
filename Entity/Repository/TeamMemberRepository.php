@@ -16,12 +16,14 @@ class TeamMemberRepository extends TranslationRepository
     public function getQueryBuilderForTeamMemberManagementDataGrid()
     {
         $qb = $this->createQueryBuilder('m');
+        $qb->select('m.id, m.name, m.jobTitle, m.enabled');
         return $qb;
     }
     
     public function getQueryBuilderForTeamMemberFormDataGrid()
     {
         $qb = $this->createQueryBuilder('m');
+        $qb->select('m.id, m.name, m.jobTitle');
         $qb->where('m.enabled = ?1');
         $qb->setParameters(array(1 => true));
         return $qb;

@@ -8,16 +8,14 @@ use Neutron\ComponentBundle\Form\Handler\AbstractFormHandler;
 class TeamMemberHandler extends AbstractFormHandler
 {
 
-    protected $teamMemberManager;
-    
-    public function setTeamMemberManager(TeamMemberManagerInterface $teamMemberManager)
-    {
-        $this->teamMemberManager = $teamMemberManager;
-    }
-    
     protected function onSuccess()
     {
         $teamMember = $this->form->get('content')->getData();
-        $this->teamMemberManager->update($teamMember, true);
+        $this->container->get('neutron_team_member.team_member_manager')->update($teamMember, true);
+    }
+    
+    protected function getRedirectUrl()
+    {
+        return $this->container->get('router')->generate('neutron_team_member.backend.team_member');
     }
 }

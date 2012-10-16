@@ -1,6 +1,8 @@
 <?php
 namespace Neutron\Plugin\TeamMemberBundle\Controller\Backend;
 
+use Neutron\SeoBundle\Model\SeoAwareInterface;
+
 use Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin;
 
 use Neutron\MvcBundle\Provider\PluginProvider;
@@ -38,7 +40,8 @@ class TeamMemberOverviewController extends ContainerAware
             'NeutronTeamMemberBundle:Backend\TeamMemberOverview:update.html.twig', array(
                 'form' => $form->createView(),
                 'plugin' => $this->container->get('neutron_mvc.plugin_provider')->get(TeamMemberPlugin::IDENTIFIER),
-                'translationDomain' =>  $this->container->get('neutron_team_member.translation_domain')
+                'translationDomain' =>  $this->container
+                    ->getParameter('neutron_team_member.translation_domain')
             )
         );
     
@@ -51,23 +54,24 @@ class TeamMemberOverviewController extends ContainerAware
         $teamMemberOverview = $this->getTeamMemberOverview($category);
     
         if ($this->container->get('request')->getMethod() == 'POST'){
-            $this->doDelete($category, $teamMemberOverview);
+            $this->doDelete($teamMemberOverview);
             $redirectUrl = $this->container->get('router')->generate('neutron_mvc.category.management');
             return new RedirectResponse($redirectUrl);
         }
     
         $template = $this->container->get('templating')->render(
             'NeutronTeamMemberBundle:Backend\TeamMemberOverview:delete.html.twig', array(
-                'record' => $teamMemberOverview,
+                'entity' => $teamMemberOverview,
                 'plugin' => $this->container->get('neutron_mvc.plugin_provider')->get(TeamMemberPlugin::IDENTIFIER),
-                'translationDomain' =>  $this->container->get('neutron_team_member.translation_domain')
+                'translationDomain' =>  $this->container
+                    ->getParameter('neutron_team_member.translation_domain')
             )
         );
     
         return  new Response($template);
     }
     
-    protected function doDelete(CategoryInterface $category, TeamMemberOverviewInterface $teamMemberOverview)
+    protected function doDelete(TeamMemberOverviewInterface $teamMemberOverview)
     {
         $this->container->get('neutron_admin.acl.manager')
             ->deleteObjectPermissions(ObjectIdentity::fromDomainObject($teamMemberOverview->getCategory()));
@@ -102,7 +106,7 @@ class TeamMemberOverviewController extends ContainerAware
         return $teamMemberOverview;
     }
     
-    protected function getSeo($teamMemberOverview)
+    protected function getSeo(SeoAwareInterface $teamMemberOverview)
     {
     
         if(!$teamMemberOverview->getSeo() instanceof SeoInterface){
@@ -126,6 +130,7 @@ class TeamMemberOverviewController extends ContainerAware
         return array(
             'general' => $category,
             'content' => $teamMemberOverview,
+            'team_members' => $teamMemberOverview,
             'seo'     => $seo,
             'panels'  => $panels,
             'acl' => $this->container->get('neutron_admin.acl.manager')
