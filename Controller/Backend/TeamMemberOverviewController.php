@@ -120,19 +120,15 @@ class TeamMemberOverviewController extends ContainerAware
     
     protected function getData($id)
     {
-        $mvcManager = $this->container->get('neutron_mvc.mvc_manager');
-        $plugin = $this->container->get('neutron_mvc.plugin_provider')->get(TeamMemberPlugin::IDENTIFIER);
         $category = $this->getCategory($id);
         $teamMemberOverview = $this->getTeamMemberOverview($category);
         $seo = $this->getSeo($teamMemberOverview);
-        $panels = $mvcManager->getPanelsForUpdate($plugin, $teamMemberOverview->getId(), TeamMemberPlugin::IDENTIFIER);
-    
+
         return array(
             'general' => $category,
             'content' => $teamMemberOverview,
-            'team_members' => $teamMemberOverview,
             'seo'     => $seo,
-            'panels'  => $panels,
+
             'acl' => $this->container->get('neutron_admin.acl.manager')
                 ->getPermissions(ObjectIdentity::fromDomainObject($category))
         );

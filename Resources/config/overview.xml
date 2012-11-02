@@ -63,14 +63,18 @@
        <service id="neutron_team_member.form.type.team_member_overview" 
         	class="%neutron_team_member.form.type.team_member_overview.class%"
         >
-            <call method="setPlugin">
-            	<argument type="service" id="neutron_team_member.plugin" />
-            </call>
             <call method="setAclManager">
             	<argument type="service" id="neutron_admin.acl.manager" />
             </call>
-            <call method="setDataGridName">
-            	<argument>%neutron_team_member.form.datagrid.team_member_form%</argument>
+       
+            <tag name="form.type" alias="neutron_team_member_overview" />
+        </service>
+        
+        <service id="neutron_team_member.form.type.team_member_overview.content" 
+        	class="%neutron_team_member.form.type.team_member_overview.content.class%"
+        >
+            <call method="setDataGrid">
+            	<argument type="service" id="neutron_team_member.datagrid.team_member_form" />
             </call>
             <call method="setTeamMemberOverviewClass">
             	<argument>%neutron_team_member.team_member_overview_class%</argument>
@@ -80,16 +84,6 @@
             </call>
             <call method="setTeamMemberReferenceClass">
             	<argument>%neutron_team_member.team_member_reference_class%</argument>
-            </call>
-       
-            <tag name="form.type" alias="neutron_team_member_overview" />
-        </service>
-        
-        <service id="neutron_team_member.form.type.team_member_overview.content" 
-        	class="%neutron_team_member.form.type.team_member_overview.content.class%"
-        >
-			<call method="setTeamMemberOverviewClass">
-            	<argument>%neutron_team_member.team_member_overview_class%</argument>
             </call>
 			<call method="setTemplates">
             	<argument>%neutron_team_member.team_member_overview_templates%</argument>

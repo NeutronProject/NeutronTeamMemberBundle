@@ -50,11 +50,17 @@ class TeamMemberPlugin
         $plugin
             ->setLabel($this->translator->trans('plugin.team_member.label', array(), $this->translationDomain))
             ->setDescription($this->translator->trans('plugin.team_member.description', array(),$this->translationDomain))
-            ->setFrontController('neutron_team_member.controller.frontend.team_member_overview:indexAction')
+            ->setFrontendRoute('neutron_team_member.frontend.team_member_overview')
             ->setAdministrationRoute('neutron_team_member.backend.team_member')
             ->setUpdateRoute('neutron_team_member.backend.team_member_overview.update')
             ->setDeleteRoute('neutron_team_member.backend.team_member_overview.delete')
             ->setManagerServiceId('neutron_team_member.team_member_overview_manager')
+            ->addBackendPage(array(
+                'name'      => 'team_member.management',
+                'label'     => 'team_member.management.label',
+                'route'     => 'neutron_team_member.backend.team_member',
+                'displayed' => true
+            ))
             ->setTreeOptions(array(
                 'children_strategy' => PluginInterface::CHILDREN_STRATEGY_SELF,
             ))

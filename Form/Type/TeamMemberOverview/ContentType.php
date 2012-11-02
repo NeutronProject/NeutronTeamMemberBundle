@@ -9,6 +9,8 @@
  */
 namespace Neutron\Plugin\TeamMemberBundle\Form\Type\TeamMemberOverview;
 
+use Neutron\Bundle\DataGridBundle\DataGrid\DataGridInterface;
+
 use Symfony\Component\Form\FormView;
 
 use Symfony\Component\Form\FormInterface;
@@ -27,15 +29,36 @@ use Symfony\Component\Form\AbstractType;
  */
 class ContentType extends AbstractType
 {
+    protected $dataGrid;
+    
     protected $teamMemberOverviewClass;
+    
+    protected $teamMemberClass;
+    
+    protected $teamMemberReferenceClass;
     
     protected $templates;
     
     protected $translationDomain;
     
+    public function setDataGrid(DataGridInterface $dataGrid)
+    {
+        $this->dataGrid = $dataGrid;
+    }
+    
     public function setTeamMemberOverviewClass($teamMemberOverviewClass)
     {
         $this->teamMemberOverviewClass = $teamMemberOverviewClass;
+    }
+    
+    public function setTeamMemberClass($teamMemberClass)
+    {
+        $this->teamMemberClass = $teamMemberClass;
+    }
+    
+    public function setTeamMemberReferenceClass($teamMemberReferenceClass)
+    {
+        $this->teamMemberReferenceClass = $teamMemberReferenceClass;
     }
     
     public function setTemplates($templates)
@@ -55,6 +78,17 @@ class ContentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
        $builder
+       
+           ->add('references', 'neutron_multi_select_sortable_collection', array(
+               'label' => 'form.reference',
+               'grid' => $this->dataGrid,
+               'translation_domain' => $this->translationDomain,
+               'options' => array(
+                   'data_class' => $this->teamMemberReferenceClass,
+                   'inversed_class' => $this->teamMemberClass,
+                   'inversed_name' => 'inversed',
+               )
+           ))
            ->add('template', 'choice', array(
                'choices' => $this->templates,
                'multiple' => false,

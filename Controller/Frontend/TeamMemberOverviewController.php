@@ -1,11 +1,9 @@
 <?php
 namespace Neutron\Plugin\TeamMemberBundle\Controller\Frontend;
 
-use Neutron\MvcBundle\Model\Category\CategoryInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 use Symfony\Component\HttpFoundation\Response;
-
-use Neutron\Plugin\TeamMemberBundle\TeamMemberPlugin;
 
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -13,23 +11,27 @@ use Symfony\Component\DependencyInjection\ContainerAware;
 
 class TeamMemberOverviewController extends ContainerAware
 {
-    public function indexAction(CategoryInterface $category)
+    public function indexAction($slug)
     {
-        $plugin = $this->container->get('neutron_mvc.plugin_provider')->get(TeamMemberPlugin::IDENTIFIER);
-        $mvcManager = $this->container->get('neutron_mvc.mvc_manager');
-        $teamMemberOverviewManager = $this->container->get('neutron_team_member.team_member_overview_manager');
-        $overview = $teamMemberOverviewManager->getByCategory($category);
 
-    
-        if (null === $overview){
+        $categoryManager = $this->container->get('neutron_mvc.category.manager');
+        
+        $entity = $categoryManager->findOneByCategorySlug(
+            $this->container->getParameter('neutron_team_member.team_member_overview_class'),
+            $slug,
+            $this->container->get('request')->getLocale()
+        );
+        
+        if (null === $entity){
             throw new NotFoundHttpException();
         }
-    
-        $mvcManager->loadPanels($plugin, $overview->getId(), TeamMemberPlugin::IDENTIFIER);
-         
-        $template = $this->container->get('templating')->render($overview->getTemplate(), array(
-            'entity'   => $overview,
-            'plugin' => $plugin,
+        
+        if (false === $this->container->get('neutron_admin.acl.manager')->isGranted($entity->getCategory(), 'VIEW')){
+            throw new AccessDeniedException();
+        }
+        
+        $template = $this->container->get('templating')->render($entity->getTemplate(), array(
+            'entity'   => $entity,
         ));
     
         return  new Response($template);
